@@ -23,5 +23,8 @@
   "bugs": {
     "url": "https://github.com/pgdd/clintRest/issues"
   },
-  "homepage": "https://github.com/pgdd/clintRest#readme"
+  "homepage": "https://github.com/pgdd/clintRest#readme",
+  "dependencies": {
+    "express": "^4.13.3"
+  }
 }
