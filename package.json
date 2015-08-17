@@ -1,0 +1,27 @@
+{
+  "name": "clintrest",
+  "version": "1.0.0",
+  "description": "rest API with expressJS and unit testing with mongoose.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pgdd/clintRest.git"
+  },
+  "keywords": [
+    "API",
+    "NodeJS",
+    "ExpressJs",
+    "mongoose",
+    "mongodb",
+    "testing"
+  ],
+  "author": "P.",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pgdd/clintRest/issues"
+  },
+  "homepage": "https://github.com/pgdd/clintRest#readme"
+}
