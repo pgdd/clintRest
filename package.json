@@ -25,6 +25,8 @@
   },
   "homepage": "https://github.com/pgdd/clintRest#readme",
   "dependencies": {
-    "express": "^4.13.3"
+    "express": "^4.13.3",
+    "mongodb": "^2.0.41",
+    "mongoose": "^4.1.3"
   }
 }
