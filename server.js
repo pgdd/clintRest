@@ -2,41 +2,56 @@
 var express = require('express');
 var mongoose = require('mongoose');
 var app = express();
+Schema = mongoose.Schema
 
-// Création des Schémas
-var vehiculesSchema = new mongoose.Schema({
-  type: { type : String, match: /^[a-zA-Z0-9-_]+$/ },
-  marque: Object,
-  image: String,
-  year : { type : String, match: /^[a-zA-Z0-9-_]+$/ },
-  ref: { type : String, match: /^[a-zA-Z0-9-_]+$/ },
+
+// Schémas with one-to-many relation
+
+var vehiculeSchema = new mongoose.Schema({
+  name : String,
+  _marque: { type: Schema.Types.ObjectId, ref: 'marque' }, // a vehicule belong to a marque
   description : String,
-  last_modified : { type : Date, default : Date.now }
-
-});
-
-var marquesSchema = new mongoose.Schema({
-  nom: { type : String, match: /^[a-zA-Z0-9-_]+$/ },
-  website : String,
   image: String,
-  last_modified : { type : Date, default : Date.now }
+});
+
+var marqueSchema = new mongoose.Schema({
+  name: String,
+  website: String,
+  image: String,
+  vehicules : [{ type: Schema.Types.ObjectId, ref: 'vehicule' }], // each marque has-many vehicules
 });
 
 
-// Création des models
-var vehicule = mongoose.model('vehicules', vehiculesSchema);
-var marque = mongoose.model('marques', marquesSchema);
+// Models creation
 
-// Insert Data
+var Vehicule = mongoose.model('vehicule', vehiculeSchema);
+var Marque = mongoose.model('marque', marqueSchema);
 
-// var peugeot206 = new vehicule({ type : '4x4' });
-// peugeot206.description = 'petite voiture';
+// Insert Marques
 
-// peugeot206.save(function (err) {
-//   if (err) { throw err; }
-//   console.log('Véhicule ajouté avec succès !');
-//   mongoose.connection.close();
-// });
+var peugeot = new Marque({name: 'Peugeot'});
+var mercedes = new Marque({name: 'Mercedes'});
+
+peugeot.save();
+mercedes.save();
+
+// Test to Insert Vehicules
+
+
+insertVehicule(peugeot, '206cc', 'voiture française');
+insertVehicule(peugeot, '207', 'voiture française');
+insertVehicule(mercedes, 'benz', 'voiture allemande');
+insertVehicule(mercedes, 'class A', 'voiture allemande');
+
+
+function insertVehicule (marque, name, description) {
+  var model = new Vehicule();
+  model._marque = marque.id; // establish relationship with the marque
+  model.name = name;
+  model.description = description;
+  if (model.save()) {marque.vehicules.push(model)}; // update reference of vehicules in marque object
+}
+
 
 
 // startup
