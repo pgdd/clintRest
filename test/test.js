@@ -1,21 +1,23 @@
-// var should = require('should');
-var assert = require('assert');
+var should = require('should')
+  , DB = require('../db')
+var express = require('express')
+  , app = express()
 var request = require('supertest');
-var mongoose = require('mongoose');
-var myApp = require('../server.js');
-var request = require('supertest')(myApp);
+var request = require('supertest')(app);
 
 describe('api', function() {
-  before(function() {
 
-  });
-  describe('POST /marques', function() {
-    it('responds with succes', function() {
-      request
-          .post('http://localhost:3000/api/marques/')
-          .type('json')
-          .send({ name: 'Peugeot' })
-          .end();
+  before(function(done) {
+    DB.connect(DB.MODE_TEST, done)
+  })
+
+  describe('POST /api/marques', function() {
+      it('responds with succes', function() {
+        request
+            .post('http://localhost:3000/api/marques/')
+            .type('json')
+            .send({ name: 'Peugeot' })
+            .end();
+      });
     });
   });
-});

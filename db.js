@@ -8,7 +8,8 @@ var state = {
 // In the real world it will be better if the production uri comes
 // from an environment variable, instead of being hard coded.
 var PRODUCTION_URI = 'mongodb://127.0.0.1:27017/production'
-  , TEST_URI = 'mongodb://127.0.0.0:27017/test'
+  // , TEST_URI = 'mongodb://pierre:password@galaga.0.mongolayer.com:10243,galaga.1.mongolayer.com:10240/test_db?replicaSet=set-54d0747144af4cc54800053b'
+  , TEST_URI = 'mongodb://127.0.0.1:27017/test'
 
 exports.MODE_TEST = 'mode_test'
 exports.MODE_PRODUCTION = 'mode_production'
