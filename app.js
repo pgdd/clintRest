@@ -1,11 +1,11 @@
 var express = require('express')
   , app = express()
 
-var db = require('./db')
+var DB = require('./db')
 
 app.use(require('./controllers'))
 
-db.connect('mongodb://localhost:27017/clint_dev', function(err) {
+DB.connect(DB.MODE_PRODUCTION, function(err) {
   if (err) {
     console.log('Unable to connect to Mongo.')
     process.exit(1)
@@ -15,4 +15,3 @@ db.connect('mongodb://localhost:27017/clint_dev', function(err) {
     })
   }
 })
-

@@ -5,17 +5,41 @@ var state = {
   db: null,
 }
 
-exports.connect = function(url, done) {
+// In the real world it will be better if the production uri comes
+// from an environment variable, instead of being hard coded.
+var PRODUCTION_URI = 'mongodb://127.0.0.1:27017/production'
+  , TEST_URI = 'mongodb://127.0.0.0:27017/test'
+
+exports.MODE_TEST = 'mode_test'
+exports.MODE_PRODUCTION = 'mode_production'
+
+exports.connect = function(mode, done) {
   if (state.db) return done()
 
-  mongoose.connect(url, function(err, db) {
+  if (arguments.length === 1) {
+    done = mode
+    mode = exports.MODE_TEST
+  }
+
+  if (mode === exports.MODE_TEST) {
+    var uri = TEST_URI
+  } else {
+    var uri = PRODUCTION_URI
+  }
+
+  mongoose.connect(uri, function(err) {
     if (err) return done(err)
-    state.db = db
+    console.log('hello')
+    console.log(db = mongoose.connection);
+    console.log('readyState ?')
+    state.db = db._readyState
+    console.log(state.db)
+    state.mode = mode
     done()
   })
 }
 
-exports.get = function() {
+exports.getDB = function() {
   return state.db
 }
 
@@ -27,4 +51,32 @@ exports.close = function(done) {
       done(err)
     })
   }
+}
+
+exports.drop = function(done) {
+  if (!state.db) return done()
+  // This is faster then dropping the database
+  state.db.collections(function(err, collections) {
+    async.each(collections, function(collection, cb) {
+      if (collection.collectionName.indexOf('system') === 0) {
+        return cb()
+      }
+      collection.remove(cb)
+    }, done)
+  })
+}
+
+exports.fixtures = function(data, done) {
+  var db = state.db
+  if (!db) {
+    return done(new Error('Missing database connection.'))
+  }
+
+  var names = Object.keys(data.collections)
+  async.each(name, function(name, cb) {
+    db.createCollection(name, function(err, collection) {
+      if (err) return cb(err)
+      collection.insert(data.collections[name], cb)
+    })
+  }, done)
 }
