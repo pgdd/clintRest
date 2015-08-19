@@ -2,9 +2,10 @@
   "name": "clintrest",
   "version": "1.0.0",
   "description": "rest API with expressJS and unit testing with mongoose.",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node app.js",
+    "test": "node_modules/.bin/mocha tests/**"
   },
   "repository": {
     "type": "git",
@@ -25,8 +26,12 @@
   },
   "homepage": "https://github.com/pgdd/clintRest#readme",
   "dependencies": {
+    "body-parser": "^1.13.3",
     "express": "^4.13.3",
     "mongodb": "^2.0.41",
     "mongoose": "^4.1.3"
+  },
+  "devDependencies": {
+    "supertest": "^1.0.1"
   }
 }
