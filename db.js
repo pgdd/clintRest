@@ -5,8 +5,6 @@ var state = {
   db: null,
 }
 
-// In the real world it will be better if the production uri comes
-// from an environment variable, instead of being hard coded.
 var PRODUCTION_URI = 'mongodb://127.0.0.1:27017/production'
   // , TEST_URI = 'mongodb://pierre:password@galaga.0.mongolayer.com:10243,galaga.1.mongolayer.com:10240/test_db?replicaSet=set-54d0747144af4cc54800053b'
   , TEST_URI = 'mongodb://127.0.0.1:27017/test'
@@ -24,20 +22,31 @@ exports.connect = function(mode, done) {
 
   if (mode === exports.MODE_TEST) {
     var uri = TEST_URI
+    mongoose.createConnection(uri, function(err) {
+      if (err) return done(err)
+      console.log('hello')
+      console.log(db = mongoose.connection);
+      console.log('readyState ?')
+      state.db = db._readyState
+      console.log(state.db)
+      state.mode = mode
+      done()
+    })
   } else {
     var uri = PRODUCTION_URI
+    mongoose.connect(uri, function(err) {
+      if (err) return done(err)
+      console.log('hello')
+      console.log(db = mongoose.connection);
+      console.log('readyState ?')
+      state.db = db._readyState
+      console.log(state.db)
+      state.mode = mode
+      done()
+    })
   }
 
-  mongoose.connect(uri, function(err) {
-    if (err) return done(err)
-    console.log('hello')
-    console.log(db = mongoose.connection);
-    console.log('readyState ?')
-    state.db = db._readyState
-    console.log(state.db)
-    state.mode = mode
-    done()
-  })
+
 }
 
 exports.getDB = function() {
@@ -46,11 +55,11 @@ exports.getDB = function() {
 
 exports.close = function(done) {
   if (state.db) {
-    state.db.close(function(err, result) {
-      state.db = null
-      state.mode = null
-      done(err)
-    })
+    console.log('closing?')
+    mongoose.disconnect()
+    state.db = null
+    state.mode = null
+    done()
   }
 }
 

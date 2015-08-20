@@ -1,23 +1,19 @@
 var should = require('should')
   , DB = require('../db')
-var express = require('express')
-  , app = express()
-var request = require('supertest');
+var app = require('../app')
 var request = require('supertest')(app);
 
-describe('api', function() {
 
-  before(function(done) {
-    DB.connect(DB.MODE_TEST, done)
-  })
+describe("api is responding", function (){
+    before(function(done) {
+      DB.connect(DB.MODE_TEST, done) //switch db for test mode, since the app has already started with the production db.
+    })
 
-  describe('POST /api/marques', function() {
-      it('responds with succes', function() {
-        request
-            .post('http://localhost:3000/api/marques/')
-            .type('json')
-            .send({ name: 'Peugeot' })
-            .end();
-      });
-    });
+  it('respond with json', function(done){
+    request
+      .get('/api/marques')
+      .set('Accept', 'application/json')
+      // .expect('Content-Type', /json/)
+      .expect(200, done);
   });
+})

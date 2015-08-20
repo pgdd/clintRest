@@ -15,3 +15,5 @@ DB.connect(DB.MODE_PRODUCTION, function(err) {
     })
   }
 })
+
+module.exports = app
