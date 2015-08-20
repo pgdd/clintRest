@@ -26,7 +26,7 @@ router.get('/', function(req, res) {
 
 router.post('/marques', function (req, res) {
   // console.log(name = req.body.name);
-  res.send('hello');
+  res.json({ message: 'you got a response to the post' });
 
   // call to method Create
   // Marque.create(name, function (err, marque) {

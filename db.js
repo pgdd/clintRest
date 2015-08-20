@@ -24,24 +24,20 @@ exports.connect = function(mode, done) {
     var uri = TEST_URI
     mongoose.createConnection(uri, function(err) {
       if (err) return done(err)
-      console.log('hello')
-      console.log(db = mongoose.connection);
-      console.log('readyState ?')
+      db = mongoose.connection;
       state.db = db._readyState
-      console.log(state.db)
       state.mode = mode
+      console.log('switch to testing database')
       done()
     })
   } else {
     var uri = PRODUCTION_URI
     mongoose.connect(uri, function(err) {
       if (err) return done(err)
-      console.log('hello')
-      console.log(db = mongoose.connection);
-      console.log('readyState ?')
+      db = mongoose.connection
       state.db = db._readyState
-      console.log(state.db)
       state.mode = mode
+      console.log('mode production started')
       done()
     })
   }
