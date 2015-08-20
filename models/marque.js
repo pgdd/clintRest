@@ -12,7 +12,7 @@ var marqueSchema = new mongoose.Schema({
   vehicules : [{ type: Schema.Types.ObjectId, ref: 'vehicule' }], // each marque has-many véhicules
 });
 
-module.exports = mongoose.model('marque', marqueSchema);
+module.exports = mongoose.model('Marque', marqueSchema);
 
 //Methods
 
@@ -20,4 +20,9 @@ module.exports = mongoose.model('marque', marqueSchema);
 exports.create = function(name, cb) {
   var marque = new Marque({name: name});
   Marque.save()
+}
+
+
+exports.update = function(cb) {
+    marques = Marque.find({})
 }

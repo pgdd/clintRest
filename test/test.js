@@ -9,35 +9,54 @@ describe("API is living", function (){
       DB.connect(DB.MODE_TEST, done) //switch db for test mode, since the app has already started with the production db.
     })
 
-  it('responds to GET /', function(done){
-    request
-      .get('/')
-      .set('Accept', 'application/json')
-      .expect('Content-Type', /json/)
-      .expect(200, done);
-  });
-
-  it('responds to GET /api', function(done){
+  it('should get a response from the server', function(done){
     request
       .get('/api')
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
       .expect(200, done);
   });
+})
 
-  it('responds to GET /api/marques', function(done){
-    request
-      .get('/api/marques')
-      .set('Accept', 'application/json')
-      .expect('Content-Type', /json/)
-      .expect(200, done);
-  });
+describe("Create Read Update Delete Marques via API", function (){
+    before(function(done) {
+      DB.connect(DB.MODE_TEST, done) //switch db for test mode, since the app has already started with the production db.
+    })
 
-  it('responds to POST /api/marques', function(done){
+  it('should create new marque Peugeot', function(done){
+    var marque = {name: 'Peugeot'}
     request
       .post('/api/marques')
-      .set('Accept', 'application/json')
-      .expect('Content-Type', /json/)
+      .send(marque)
+      .expect("Peugeot is stored", done);
+  });
+
+  it('should read Peugeot object', function(done){
+    request
+      .get('/api/marques/55d614ce9233f1fd74a1c9d0')
       .expect(200, done);
   });
+
+  it('should list all marques', function(done){
+    request
+      .get('/api/marques')
+      .expect(200, done);
+  });
+
+  it('should update Peugeot to Citroen', function(done){
+    var marque = {name: 'Citroen'}
+    request
+      .put('/api/marques/55d614ce9233f1fd74a1c9d0')
+      .send(marque)
+      .expect("Citroen has updated Peugeot", done);
+  });
+
+  it('should delete Citroen', function(done){
+    var marque = {name: 'Citroen'}
+    request
+      .del('/api/marques/55d614ce9233f1fd74a1c9d0 ')
+      .send(marque)
+      .expect("Citroen has been deleted", done);
+  });
+
 })
