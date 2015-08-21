@@ -91,6 +91,69 @@ router.delete('/marques/:id', function(req, res){
 });
 
 
+router.get('/', function(req, res) {
+    res.json({ message: 'you got a response' });
+});
+
+router.get('/vehicules', function(req, res) {
+  console.log('here we are')
+  Vehicule.find({}, function(err, vehicule){
+    if (err) res.json({success: false, message:err});
+
+    res.json({success: true, data: vehicule});
+  })
+});
+
+router.get('/vehicules/:id', function(req, res) {
+  var id = req.params.id;
+  console.log('here we are params')
+  console.log(id)
+  Vehicule.findOne({_id: id}, function (err, vehicule) {
+    if (err) res.json({success: false, message:err});
+
+    res.json({success: true, data: vehicule});
+  });
+});
+
+router.post('/vehicules', function (req, res) {
+  var JSON = req.body;
+  var name = JSON.name;
+  console.log(name)
+  var vehicule = new Vehicule();
+  vehicule.name = name
+
+  vehicule.save(function (err){
+    if (err) res.json({success: false, message:err});
+
+    res.json({success: true, message: 'Save completed', data: vehicule});
+  });
+})
+
+router.put('/vehicules/:id', function (req, res) {
+  var id = req.params.id;
+  var JSON = req.body;
+  var name = JSON.name;
+  console.log(name)
+  Vehicule.findOne({_id: id}, function (err, vehicule) {
+    if (err) res.json({success: false, message:err});
+    if (name) vehicule.name = name;
+
+    vehicule.save(function(err){
+      if (err) res.json({success: false, message:err});
+      res.json({success: true, data: vehicule});
+    });
+  });
+});
+
+router.delete('/vehicules/:id', function(req, res){
+  //Delete one task
+  var id = req.params.id;
+  Vehicule.remove({_id:id}, function(err, task){
+    if (err) res.json({success: false, message:err});
+
+    res.json({success: true, message: "Citroen has been deleted"});
+  });
+});
 
 
 router.use('/api', router);
