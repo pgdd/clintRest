@@ -1,8 +1,6 @@
 var chai = require('chai')
-// var should = require('chai').should
 var app = require('../app')
 var expect = require('chai').expect
-var chai = require("chai");
 chai.should();
 chai.use(require('chai-things'));
 
@@ -256,7 +254,7 @@ describe("Create Read Update Delete Vehicules via API", function (){
 
 
 // test relational database
-describe("Test relationship between to associate a vehicule to a marque", function (){
+describe("Test relationship between models to associate a vehicule to a marque", function (){
 
   var peugeotId
   var mercedesId
@@ -369,9 +367,6 @@ describe("Test relationship between to associate a vehicule to a marque", functi
     request
       .get('/api/vehicules/marque/' + marque)
       .end(function(err, res){
-        console.log('this is res for list populated')
-        console.log(res.body.data.vehicules)
-        // a = res.status
         expect(res.status).not.equal(404);
         expect(res.body.success).equal(true);
         expect(res.body.data.vehicules).to.be.an('array');
@@ -399,9 +394,6 @@ describe("Test relationship between to associate a vehicule to a marque", functi
     request
       .get('/api/vehicules/marque/' + marque)
       .end(function(err, res){
-        console.log('this is res for list populated')
-        console.log(res.body.data.vehicules)
-        // a = res.status
         expect(res.status).not.equal(404);
         expect(res.body.success).equal(true);
         expect(res.body.data.vehicules).to.be.an('array');
@@ -434,7 +426,6 @@ describe("Test relationship between to associate a vehicule to a marque", functi
       .post('/api/vehicules')
       .send(vehicule)
       .end(function(err, res){
-        console.log(res)
         expect(res.status).not.equal(404);
         expect(res.body.success).equal(true);
         // expect(res.body.data.vehicules).to.be.an('array');
@@ -451,7 +442,6 @@ describe("Test relationship between to associate a vehicule to a marque", functi
       .put('/api/vehicules/' + RenaultClioId)
       .send(vehicule)
       .end(function(err, res){
-        console.log('body data' + res.body.data)
         expect(res.status).not.equal(404);
         expect(res.body.success).equal(true);
         // expect(res.body.data._marque).to.eql(null)
@@ -469,9 +459,6 @@ describe("Test relationship between to associate a vehicule to a marque", functi
     request
       .get('/api/vehicules/marque/' + marque)
       .end(function(err, res){
-        console.log('this is res for list populated')
-        console.log(res.body.data.vehicules)
-        // a = res.status
         expect(res.status).not.equal(404);
         expect(res.body.success).equal(true);
         expect(res.body.data.vehicules).to.be.an('array');

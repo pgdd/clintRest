@@ -13,15 +13,3 @@ var vehiculeSchema = module.exports = new mongoose.Schema({
 });
 
 module.exports = mongoose.model('vehicule', vehiculeSchema);
-
-
-// Methods
-
-// Create new vehicule in database
-exports.create = function(marque, name, description) {
-  var model = new Vehicule();
-  model._marque = marque.id; // establish relationship with the marque
-  model.name = name;
-  model.description = description;
-  if (model.save()) {marque.vehicules.push(model)}; // update references of véhicules in marque object
-}

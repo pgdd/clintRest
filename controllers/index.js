@@ -4,28 +4,33 @@ var express = require('express')
   , Vehicule = require('../models/vehicule')
 var app = express()
 var bodyParser = require('body-parser');
-var mongoose = require('mongoose');
 
 
-router.use(bodyParser.json());
-
-//routing
-
-// route middleware that will happen on every request
-router.use(function(req, res, next) {
-
-    // log each request to the console
-    console.log(req.method, req.url);
-
-    // continue doing what we were doing and go to the route
-    next();
-});
-
-// API
 
 router.get('/', function(req, res) {
     res.json({ message: 'you got a response' });
 });
+
+
+
+                      // Marques router
+
+// Create
+
+router.post('/marques', function (req, res) {
+  var JSON = req.body;
+  var name = JSON.name;
+  var marque = new Marque();
+  marque.name = name
+
+  marque.save(function (err){
+    if (err) res.json({success: false, message:err});
+
+    res.json({success: true, message: 'Save completed', data: marque});
+  });
+})
+
+// Read
 
 router.get('/marques', function(req, res) {
   Marque.find({}, function(err, marque){
@@ -44,23 +49,14 @@ router.get('/marques/:id', function(req, res) {
   });
 });
 
-router.post('/marques', function (req, res) {
-  var JSON = req.body;
-  var name = JSON.name;
-  var marque = new Marque();
-  marque.name = name
 
-  marque.save(function (err){
-    if (err) res.json({success: false, message:err});
-
-    res.json({success: true, message: 'Save completed', data: marque});
-  });
-})
+// Update
 
 router.put('/marques/:id', function (req, res) {
   var id = req.params.id;
   var JSON = req.body;
   var name = JSON.name;
+
   Marque.findOne({_id: id}, function (err, marque) {
     if (err) res.json({success: false, message:err});
     if (name) marque.name = name;
@@ -72,6 +68,7 @@ router.put('/marques/:id', function (req, res) {
   });
 });
 
+// Delete
 
 router.delete('/marques/:id', function(req, res){
   //Delete one task
@@ -84,33 +81,17 @@ router.delete('/marques/:id', function(req, res){
 });
 
 
-// VEHICULES
+                      // Vehicules router
 
 
-router.get('/vehicules', function(req, res) {
-  Vehicule.find({}, function(err, vehicule){
-    if (err) res.json({success: false, message:err});
-
-    res.json({success: true, data: vehicule});
-  })
-});
-
-router.get('/vehicules/:id', function(req, res) {
-  var id = req.params.id;
-  Vehicule.findOne({_id: id}, function (err, vehicule) {
-    if (err) res.json({success: false, message:err});
-
-    res.json({success: true, data: vehicule});
-  });
-});
+// Create
 
 router.post('/vehicules', function (req, res) {
   var JSON = req.body;
   var name = JSON.name;
   var marqueName = JSON.marque;
-  console.log('this is post vehicules' + marqueName)
 
-  if (marqueName) {
+  if (marqueName) { // condition to post _marque of a vehicule, and make the relation
       Marque.findOne({name: marqueName}, function(err, marque){
         if (err) res.json({success: false, message:err});
 
@@ -139,11 +120,29 @@ router.post('/vehicules', function (req, res) {
 
         res.json({success: true, message: 'Save completed', data: vehicule});
     });
-
   }
-
-
 })
+
+// Read
+
+router.get('/vehicules', function(req, res) {
+  Vehicule.find({}, function(err, vehicule){
+    if (err) res.json({success: false, message:err});
+
+    res.json({success: true, data: vehicule});
+  })
+});
+
+router.get('/vehicules/:id', function(req, res) {
+  var id = req.params.id;
+  Vehicule.findOne({_id: id}, function (err, vehicule) {
+    if (err) res.json({success: false, message:err});
+
+    res.json({success: true, data: vehicule});
+  });
+});
+
+// Update
 
 router.put('/vehicules/:id', function (req, res) {
   var id = req.params.id;
@@ -151,9 +150,8 @@ router.put('/vehicules/:id', function (req, res) {
   var name = JSON.name;
   var marque = JSON.marque;
 
-  if (marque) {
+  if (marque) { // condition to update _marque of a vehicule, when present in JSON
     Marque.findOne({name: marque}, function (err, marque) {
-      console.log('this is id marque' + marque._id)
       Vehicule.findOne({_id: id}, function (err, vehicule) {
         if (err) res.json({success: false, message:err});
         vehicule._marque = marque
@@ -166,11 +164,6 @@ router.put('/vehicules/:id', function (req, res) {
           });
         });
       });
-      // vehicule = Vehicule.findOne({_id: id})
-      // marque.name = name
-      // vehicule._marque = marque.id;
-      // if (err) res.json({success: false, message:err});
-
     });
   } else {
       Vehicule.findOne({_id: id}, function (err, vehicule) {
@@ -185,9 +178,10 @@ router.put('/vehicules/:id', function (req, res) {
   }
 })
 
+// Delete
 
 router.delete('/vehicules/:id', function(req, res){
-  //Delete one task
+
   var id = req.params.id;
   Vehicule.remove({_id:id}, function(err, task){
     if (err) res.json({success: false, message:err});
@@ -196,7 +190,10 @@ router.delete('/vehicules/:id', function(req, res){
   });
 });
 
-// relational routes
+
+                      /// Custom routes
+
+//Get all vehicules of a marque
 
 router.get('/vehicules/marque/:marque', function(req, res) {
   var marque = req.params.marque;
@@ -208,10 +205,9 @@ router.get('/vehicules/marque/:marque', function(req, res) {
   });
 });
 
-router.use('/api', router);
-app.use(bodyParser.json());
+/////////////////
 
-// router.use('/marques', require('./marques'))
-// router.use('/vehicules', require('./vehicules'))
+router.use('/api', router);
+router.use(bodyParser.json());
 
 module.exports = router
