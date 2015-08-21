@@ -29,9 +29,10 @@ router.get('/', function(req, res) {
 
 router.get('/marques', function(req, res) {
   console.log('here we are')
-  Marque.find({}, function (err, marque) {
-  if (err) return handleError(err);
-  res.json(marque)
+  Marque.find({}, function(err, marque){
+    if (err) res.json({success: false, message:err});
+
+    res.json({success: true, data: marque});
   })
 });
 
@@ -40,41 +41,57 @@ router.get('/marques/:id', function(req, res) {
   console.log('here we are params')
   console.log(id)
   Marque.findOne({_id: id}, function (err, marque) {
-  if (err) return handleError(err);
-  res.json(marque)
-  })
+    if (err) res.json({success: false, message:err});
+
+    res.json({success: true, data: marque});
+  });
 });
 
 router.post('/marques', function (req, res) {
-  var marque = req.body;
-  var name = marque.name;
+  var JSON = req.body;
+  var name = JSON.name;
   console.log(name)
   // res.json({ message: 'you got a response to the post' });
   // call to method Create
-  Marque.create(marque, function (err, marque) {
-    res.status(200).send(name + " is stored");
-  })
+  var marque = new Marque();
+  marque.name = name
+
+  marque.save(function (err){
+    if (err) res.json({success: false, message:err});
+
+    res.json({success: true, message: 'Save completed', data: marque});
+  });
 })
 
 router.put('/marques/:id', function (req, res) {
   var id = req.params.id;
-  var marque = req.body;
-  var name = marque.name;
+  var JSON = req.body;
+  var name = JSON.name;
   console.log(name)
-  Marque.findByIdAndUpdate(id, { $set: { name: name }}, function (err, marque) {
-  if (err) return handleError(err);
-  res.status(200).send(name + " has updated Peugeot");
+  Marque.findOne({_id: id}, function (err, marque) {
+    if (err) res.json({success: false, message:err});
+    if (name) marque.name = name;
+
+    marque.save(function(err){
+      if (err) res.json({success: false, message:err});
+      res.json({success: true, data: marque});
+    });
   });
 });
 
 
-router.delete('/marques/:id', function (req, res) {
+router.delete('/marques/:id', function(req, res){
+  //Delete one task
   var id = req.params.id;
-  Marque.findOneAndRemove({_id: id}, function (err, marque) {
-  if (err) return handleError(err);
-  res.status(200).send('Citroen has been deleted')
-  })
+  Marque.remove({_id:id}, function(err, task){
+    if (err) res.json({success: false, message:err});
+
+    res.json({success: true, message: "Citroen has been deleted"});
+  });
 });
+
+
+
 
 router.use('/api', router);
 app.use(bodyParser.json());

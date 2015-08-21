@@ -14,15 +14,3 @@ var marqueSchema = new mongoose.Schema({
 
 module.exports = mongoose.model('Marque', marqueSchema);
 
-//Methods
-
-// Create new marque in database
-exports.create = function(name, cb) {
-  var marque = new Marque({name: name});
-  Marque.save()
-}
-
-
-exports.update = function(cb) {
-    marques = Marque.find({})
-}

@@ -27,12 +27,16 @@
   "homepage": "https://github.com/pgdd/clintRest#readme",
   "dependencies": {
     "body-parser": "^1.13.3",
+    "chai": "^3.2.0",
+    "expect": "latest",
     "express": "^4.13.3",
     "mongodb": "^2.0.41",
     "mongoose": "^4.1.3"
   },
   "devDependencies": {
     "supertest": "^1.0.1",
-    "should": "^7.0.4"
+    "should": "latest",
+    "expect": "latest",
+    "chai": "latest"
   }
 }
