@@ -28,7 +28,6 @@ router.get('/', function(req, res) {
 });
 
 router.get('/marques', function(req, res) {
-  console.log('here we are')
   Marque.find({}, function(err, marque){
     if (err) res.json({success: false, message:err});
 
@@ -38,8 +37,6 @@ router.get('/marques', function(req, res) {
 
 router.get('/marques/:id', function(req, res) {
   var id = req.params.id;
-  console.log('here we are params')
-  console.log(id)
   Marque.findOne({_id: id}, function (err, marque) {
     if (err) res.json({success: false, message:err});
 
@@ -50,9 +47,6 @@ router.get('/marques/:id', function(req, res) {
 router.post('/marques', function (req, res) {
   var JSON = req.body;
   var name = JSON.name;
-  console.log(name)
-  // res.json({ message: 'you got a response to the post' });
-  // call to method Create
   var marque = new Marque();
   marque.name = name
 
@@ -67,7 +61,6 @@ router.put('/marques/:id', function (req, res) {
   var id = req.params.id;
   var JSON = req.body;
   var name = JSON.name;
-  console.log(name)
   Marque.findOne({_id: id}, function (err, marque) {
     if (err) res.json({success: false, message:err});
     if (name) marque.name = name;
@@ -91,12 +84,10 @@ router.delete('/marques/:id', function(req, res){
 });
 
 
-router.get('/', function(req, res) {
-    res.json({ message: 'you got a response' });
-});
+// VEHICULES
+
 
 router.get('/vehicules', function(req, res) {
-  console.log('here we are')
   Vehicule.find({}, function(err, vehicule){
     if (err) res.json({success: false, message:err});
 
@@ -106,8 +97,6 @@ router.get('/vehicules', function(req, res) {
 
 router.get('/vehicules/:id', function(req, res) {
   var id = req.params.id;
-  console.log('here we are params')
-  console.log(id)
   Vehicule.findOne({_id: id}, function (err, vehicule) {
     if (err) res.json({success: false, message:err});
 
@@ -118,22 +107,25 @@ router.get('/vehicules/:id', function(req, res) {
 router.post('/vehicules', function (req, res) {
   var JSON = req.body;
   var name = JSON.name;
-  console.log(name)
-  var vehicule = new Vehicule();
-  vehicule.name = name
+  var marqueName = JSON.marque;
 
-  vehicule.save(function (err){
+  Marque.findOne({name: marqueName}, function(err, marque){
     if (err) res.json({success: false, message:err});
-
-    res.json({success: true, message: 'Save completed', data: vehicule});
-  });
+    var vehicule = new Vehicule();
+    vehicule.name = name
+    vehicule._marque = marque.id;
+    vehicule.save(function (err){
+      if (err) res.json({success: false, message:err});
+      marque.vehicules.push(vehicule)
+      res.json({success: true, message: 'Save completed', data: vehicule});
+    });
+  })
 })
 
 router.put('/vehicules/:id', function (req, res) {
   var id = req.params.id;
   var JSON = req.body;
   var name = JSON.name;
-  console.log(name)
   Vehicule.findOne({_id: id}, function (err, vehicule) {
     if (err) res.json({success: false, message:err});
     if (name) vehicule.name = name;
