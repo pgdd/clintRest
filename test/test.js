@@ -1,6 +1,5 @@
 var chai = require('chai')
 // var should = require('chai').should
-var DB = require('../db')
 var app = require('../app')
 var expect = require('chai').expect
 var chai = require("chai");

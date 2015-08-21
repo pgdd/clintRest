@@ -1,4 +1,3 @@
-var db = require('../db').db;
 var mongoose = require('mongoose');
 Schema = mongoose.Schema
 
