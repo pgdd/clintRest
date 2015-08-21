@@ -253,7 +253,8 @@ describe("Create Read Update Delete Vehicules via API", function (){
 })
 
 
-// test relational database
+                  /// RELATION BETWEEN MARQUES AND VEHICULES
+
 describe("Test relationship between models to associate a vehicule to a marque", function (){
 
   var peugeotId
@@ -428,7 +429,6 @@ describe("Test relationship between models to associate a vehicule to a marque",
       .end(function(err, res){
         expect(res.status).not.equal(404);
         expect(res.body.success).equal(true);
-        // expect(res.body.data.vehicules).to.be.an('array');
         RenaultClioId = res.body.data._id;
         done()
       })
@@ -444,12 +444,7 @@ describe("Test relationship between models to associate a vehicule to a marque",
       .end(function(err, res){
         expect(res.status).not.equal(404);
         expect(res.body.success).equal(true);
-        // expect(res.body.data._marque).to.eql(null)
         expect(res.body.data._marque).to.eql(renaultId)
-        // vehicules = res.body.data.vehicules
-        // vehicules.should.all.have.property('_marque', renaultId)
-        // vehicules.should.include.something.that.deep.equals({name: 'Clio'})
-        // RenaultClioId = res.body.data._id;
         done()
       })
   });
