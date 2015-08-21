@@ -28,6 +28,7 @@
   "dependencies": {
     "body-parser": "^1.13.3",
     "chai": "^3.2.0",
+    "chai-things": "^0.2.0",
     "expect": "latest",
     "express": "^4.13.3",
     "mongodb": "^2.0.41",
