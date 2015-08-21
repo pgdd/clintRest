@@ -9,14 +9,23 @@ chai.use(require('chai-things'));
 
 var request = require('supertest')(app);
 var mongoose = require('mongoose')
-// mongoose.connection.db.dropDatabase();
 
-var id
+
+mongoose.connect('mongodb://127.0.0.1:27017/production', function() {
+  console.log('Connected to production again')
+  mongoose.disconnect(connectToTestDB)
+})
+
+function connectToTestDB() {
+  mongoose.connect('mongodb://127.0.0.1:27017/test', function() {
+    console.log('Connected to test DB')
+  })
+}
+
+
+
 
 describe("API is living", function (){
-    before(function(done) {
-      DB.connect(DB.MODE_TEST, done) //switch db for test mode, since the app has already started with the production db.
-    })
 
   it('should get a response from the server', function(done){
     request
@@ -31,9 +40,12 @@ describe("API is living", function (){
 
 
 describe("Create Read Update Delete Marques via API", function (){
-    // before(function(done) {
-    //   DB.connect(DB.MODE_TEST, done) //switch db for test mode, since the app has already started with the production db.
-    // })
+
+  var id
+
+  before(function(done) {
+    mongoose.connection.db.dropDatabase(done);
+  })
 
   it('should create new Marque Peugeot', function(done){
     var marque = {name: 'Peugeot'}
@@ -111,13 +123,17 @@ describe("Create Read Update Delete Marques via API", function (){
 
                               /// VEHICULES ///
 
-var peugeotId
-var mercedesId
+
 
 describe("Create Read Update Delete Vehicules via API", function (){
-    // before(function(done) {
-    //   DB.connect(DB.MODE_TEST, done) //switch db for test mode, since the app has already started with the production db.
-    // })
+
+  var peugeotId
+  var mercedesId
+
+  before(function(done) {
+    mongoose.connection.db.dropDatabase(done);
+  })
+
   it('should create new Marque Peugeot first', function(done){
     var marque = {name: 'Peugeot'}
     request
@@ -241,7 +257,8 @@ describe("Create Read Update Delete Vehicules via API", function (){
 
 
 // test relational database
-describe("Test model relationship", function (){
+describe("Test relationship between to associate a vehicule to a marque", function (){
+
   var peugeotId
   var mercedesId
   var renaultId
@@ -250,6 +267,7 @@ describe("Test model relationship", function (){
   var mercedesClassAId
   var MercedesAMGId
   var RenaultClioId
+
   before(function(done) {
      mongoose.connection.db.dropDatabase(done);
   })
