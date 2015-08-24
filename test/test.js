@@ -19,9 +19,6 @@ function connectToTestDB() {
   })
 }
 
-
-
-
 describe("API is living", function (){
 
   it('should get a response from the server', function(done){
@@ -50,9 +47,9 @@ describe("Create Read Update Delete Marques via API", function (){
       .post('/api/marques')
       .send(marque)
       .end(function(err, res){
-        // a = res.status
         expect(res.status).not.equal(404);
         expect(res.body.success).equal(true);
+        expect(res.body.data.name).to.eql('Peugeot')
         id = res.body.data._id;
         done()
       })
@@ -76,6 +73,7 @@ describe("Create Read Update Delete Marques via API", function (){
         expect(res)
         expect(res.body.data).to.be.an('object')
         expect(res.body.data._id).to.eql(id)
+        expect(res.body.data.name).to.eql('Peugeot')
         done()
       })
   });

@@ -1,3 +1,5 @@
+// Dependencies
+
 var express = require('express')
   , app = express()
   , bodyParser = require('body-parser')
@@ -7,6 +9,7 @@ var express = require('express')
 app.use(bodyParser.json())
 app.use(require('./controllers'))
 
+// Startup
 
 mongoose.connect('mongodb://127.0.0.1:27017/production', function(err) {
   if (err) {

@@ -20,6 +20,7 @@ router.get('/', function(req, res) {
 router.post('/marques', function (req, res) {
   var JSON = req.body;
   var name = JSON.name;
+
   var marque = new Marque();
   marque.name = name
 
@@ -42,6 +43,7 @@ router.get('/marques', function(req, res) {
 
 router.get('/marques/:id', function(req, res) {
   var id = req.params.id;
+
   Marque.findOne({_id: id}, function (err, marque) {
     if (err) res.json({success: false, message:err});
 
@@ -71,8 +73,8 @@ router.put('/marques/:id', function (req, res) {
 // Delete
 
 router.delete('/marques/:id', function(req, res){
-  //Delete one task
   var id = req.params.id;
+
   Marque.remove({_id:id}, function(err, task){
     if (err) res.json({success: false, message:err});
 
@@ -135,6 +137,7 @@ router.get('/vehicules', function(req, res) {
 
 router.get('/vehicules/:id', function(req, res) {
   var id = req.params.id;
+
   Vehicule.findOne({_id: id}, function (err, vehicule) {
     if (err) res.json({success: false, message:err});
 
@@ -181,8 +184,8 @@ router.put('/vehicules/:id', function (req, res) {
 // Delete
 
 router.delete('/vehicules/:id', function(req, res){
-
   var id = req.params.id;
+
   Vehicule.remove({_id:id}, function(err, task){
     if (err) res.json({success: false, message:err});
 
@@ -197,11 +200,11 @@ router.delete('/vehicules/:id', function(req, res){
 
 router.get('/vehicules/marque/:marque', function(req, res) {
   var marque = req.params.marque;
+
   var query = Marque.findOne({name: marque}).populate("vehicules");
   query.lean().exec(function(err, vehicules) {
       if (err) res.json({success: false, message:err});
       res.json({success: true, data: vehicules});
-      //do stuff
   });
 });
 
