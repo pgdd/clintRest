@@ -11,5 +11,5 @@ var marqueSchema = new mongoose.Schema({
   vehicules : [{ type: Schema.Types.ObjectId, ref: 'vehicule' }], // each marque has-many véhicules
 });
 
-module.exports = mongoose.model('Marque', marqueSchema);
+module.exports = mongoose.model('marque', marqueSchema);
 

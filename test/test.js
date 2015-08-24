@@ -88,6 +88,7 @@ describe("Create Read Update Delete Marques via API", function (){
         expect(res.body.success).equal(true);
         expect(res.body.data._id).to.eql(id)
         expect(res.body.data.name).not.to.equal('Peugeot')
+        expect(res.body.data.name).to.eql('Citroen')
         id = res.body.data._id;
         done()
       })
@@ -261,8 +262,8 @@ describe("Test relationship between models to associate a vehicule to a marque",
   var peugeot206Id
   var peugeot207Id
   var mercedesClassAId
-  var MercedesAMGId
-  var RenaultClioId
+  var mercedesAMGId
+  var renaultClioId
 
   before(function(done) {
      mongoose.connection.db.dropDatabase(done);
@@ -356,7 +357,7 @@ describe("Test relationship between models to associate a vehicule to a marque",
         expect(res.status).not.equal(404);
         expect(res.body.success).equal(true);
         expect(res.body.data._marque).to.eql(mercedesId)
-        MercedesAMGId = res.body.data._id;
+        mercedesAMGId = res.body.data._id;
         done()
       })
   });
@@ -419,7 +420,7 @@ describe("Test relationship between models to associate a vehicule to a marque",
 
   it('should first create vehicule clio without defining marque', function(done){
     var vehicule = {
-      name: 'clio',
+      name: 'Clio',
     }
     request
       .post('/api/vehicules')
@@ -427,7 +428,7 @@ describe("Test relationship between models to associate a vehicule to a marque",
       .end(function(err, res){
         expect(res.status).not.equal(404);
         expect(res.body.success).equal(true);
-        RenaultClioId = res.body.data._id;
+        renaultClioId = res.body.data._id;
         done()
       })
   });
@@ -437,7 +438,7 @@ describe("Test relationship between models to associate a vehicule to a marque",
       marque: 'Renault',
     }
     request
-      .put('/api/vehicules/' + RenaultClioId)
+      .put('/api/vehicules/' + renaultClioId)
       .send(vehicule)
       .end(function(err, res){
         expect(res.status).not.equal(404);
@@ -459,7 +460,7 @@ describe("Test relationship between models to associate a vehicule to a marque",
         expect(res.body.data.name).to.eql('Renault')
         vehicules = res.body.data.vehicules
         vehicules.should.all.have.property('_marque', renaultId)
-        vehicules.should.not.include.something.that.deep.equals({name: 'Clio'})
+        vehicules.should.contain.an.item.with.property('name', 'Clio')
         done()
       })
   });

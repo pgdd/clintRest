@@ -36,7 +36,6 @@ router.post('/marques', function (req, res) {
 router.get('/marques', function(req, res) {
   Marque.find({}, function(err, marque){
     if (err) res.json({success: false, message:err});
-
     res.json({success: true, data: marque});
   })
 });
@@ -157,7 +156,7 @@ router.put('/vehicules/:id', function (req, res) {
     Marque.findOne({name: marque}, function (err, marque) {
       Vehicule.findOne({_id: id}, function (err, vehicule) {
         if (err) res.json({success: false, message:err});
-        vehicule._marque = marque
+        vehicule._marque = marque._id
         marque.vehicules.push(vehicule)
         vehicule.save(function(err){
           if (err) res.json({success: false, message:err});
