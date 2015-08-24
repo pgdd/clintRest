@@ -9,13 +9,12 @@ var mongoose = require('mongoose')
 
 
 mongoose.connect('mongodb://127.0.0.1:27017/production', function() {
-  console.log('Connected to production again')
   mongoose.disconnect(connectToTestDB)
 })
 
 function connectToTestDB() {
   mongoose.connect('mongodb://127.0.0.1:27017/test', function() {
-    console.log('Connected to test DB')
+    console.log('Switch connection to test DB')
   })
 }
 
