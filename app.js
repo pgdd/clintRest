@@ -7,7 +7,7 @@ var express = require('express')
 
 
 app.use(bodyParser.json())
-app.use(require('./controllers'))
+app.use(require('./controllers/routes'))
 
 // Startup
 
