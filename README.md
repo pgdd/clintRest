@@ -1,9 +1,6 @@
 ## EXPRESS API
-## Quick Start
 
-#### Download
-
-
+### Download
 
 ```bash
 git clone https://github.com/pgdd/clintRest.git
@@ -11,23 +8,19 @@ git clone https://github.com/pgdd/clintRest.git
 
 Or download [zip](https://github.com/pgdd/clintRest/archive/master.zip)
 
-#### Launch mongoDB
+### Quick Start
+
 Launch [mongo](https://www.mongodb.org/) first :
 
 ```bash
 mongod
 ```
 
-#### Launch app
-
 In a new shell :
 
 ```bash
 npm install
 ```
-
-then
-
 ```bash
 npm test
 ```
@@ -57,7 +50,7 @@ Create and update a marque by sending JSON:
 ```
 NB: We need to define at least the name.
 
-### Vehicules
+### Véhicules
 #### Routes
  HTTP|routes|Result
 :----|:----|:----:
@@ -77,21 +70,21 @@ DELETE|/api/vehicules/:id | delete vehicule
   }
 ```
 
-create a vehicule without defining a marque by sending JSON:
+Create a vehicule without defining a marque by sending JSON:
 
 ```json
   {
     "name": "Clio"
   }
 ```
-update a vehicule to define it marque by sending JSON:
+Update a vehicule to define it marque by sending JSON:
 
 ```json
   {
     "marque": "Renault"
   }
 ```
-This will push the targeted vehicule object into the appropiate marque object in the database.
+This will push the ID of the targeted vehicule object into the appropiate marque object in the database.
 
 NB: we need to define marque parameters with names of marques already registered in the database.
 
@@ -104,10 +97,10 @@ NB: we need to define marque parameters with names of marques already registered
 :----|:----|:----:
 GET|/api/vehicules/marque/:name | index vehicules by marque
 
-#####Exemple :
+#####Example :
 
 ```bash
 curl http://localhost:3000/vehicules/marque/Peugeot
 ```
 
-This will respond with a list of vehicules Peugeot. This list is populated from the key "vehicules" of the Peugeot object.
+This will respond with a list of vehicules Peugeot. This list is populated from key "vehicules" of the Peugeot object.
