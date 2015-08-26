@@ -1,5 +1,5 @@
 var Vehicule = require('../models/vehicule')
-var Marque = require('../models/marque')
+  , Marque = require('../models/marque')
 
 // Index vehicules by marque with populate
 

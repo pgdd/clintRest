@@ -1,5 +1,5 @@
 var Vehicule = require('../models/vehicule')
-var Marque = require('../models/marque')
+  , Marque = require('../models/marque')
 
 
 // Create
@@ -74,6 +74,7 @@ exports.update = function(req, res) {
       Vehicule.findOne({_id: id}, function (err, vehicule) {
         if (err) res.json({success: false, message:err});
         vehicule._marque = marque._id
+        // if (name) vehicule.name = name;
         marque.vehicules.push(vehicule)
         vehicule.save(function(err){
           if (err) res.json({success: false, message:err});
