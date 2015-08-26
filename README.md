@@ -37,7 +37,7 @@ GET|/api/marques | index marques
 GET|/api/marques/:id | show marque
 POST|/api/marques | create marque
 PUT|/api/marques/:id | update marque
-DELETE|/api/marquees/:id | delete marque
+DELETE|/api/marques/:id | delete marque
 
 ####Content-Type application/json
 
