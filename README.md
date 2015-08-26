@@ -84,7 +84,7 @@ Update a vehicule to define it marque by sending JSON:
     "marque": "Renault"
   }
 ```
-This will push the ID of the targeted vehicule object into the appropiate marque object in the database.
+This will push the ID of the targeted vehicule object into the appropriate marque object in the database.
 
 NB: we need to define marque parameters with names of marques already registered in the database.
 
